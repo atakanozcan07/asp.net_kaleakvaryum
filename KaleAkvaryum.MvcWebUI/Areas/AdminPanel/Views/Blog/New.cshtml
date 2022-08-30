@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewData["Title"] = "New";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_Layout.cshtml";
+}
+@using KaleAkvaryum.Model.Entity
+@model Blog
+@section styles{
+
+    <link href="~/AdminPanelContent/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.css" rel="stylesheet" />
+    <link href="~/AdminPanelContent/plugins/sweetalert2/sweetalert2.css" rel="stylesheet" />
+}
+<div class="col-md-3"></div>
+<div class="col-md-9">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Blog Ekleme</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Blog İsmi</label>
+                    <input type="text" class="form-control" id="txtname" placeholder="Blog İsmi Giriniz...">
+                </div>
+
+                <div class="form-group">
+                    <label>Blog Metni</label>
+                    <textarea type="textarea" class="form-control" id="txttext" placeholder="Blog Metini"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputFile">Fotoğraf Seç</label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="fotofile">
+                            <label class="custom-file-label">Fotoğraf Seçiniz...</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Blog Tarihi</label>
+                    <input type="datetime-local" class="form-control" id="txtdate" placeholder="Blog Tarih">
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <button id="btnclicked" type="button" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnclicked").click(function () {
+                var formData = new FormData();
+                var file = $("#fotofile")[0].files[0];
+                formData.append("photo", file);
+                $.ajax({
+                    url: "/blog-photo-upload",
+                    method: "post",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.isOk) {
+                            var vm = {
+                                BlogName: $("#txtname").val(),
+                                BlogText: $("#txttext").val(),
+                                BlogDate: $("#txtdate").val(),
+                                BlogImg: response.photoPath
+                            };
+                            $.ajax({
+                                url: "/new-blog",
+                                method: "post",
+                                dataType: "json",
+                                data: { vm: vm },
+                                success: function (resp) {
+                                    if (resp.isOk) {
+                                        Swal.fire({
+                                            position: 'top-center',
+                                            icon: 'success',
+                                            title: 'Your work has been saved',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
+                                    }
+
+                                }
+
+                            });
+
+                        }
+                        else {
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'warning',
+                                title: 'Bir Adet Fotoğraf Seçiniz... ',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+
+                        }
+
+
+                    }
+
+                });
+
+
+            });
+
+        });
+
+
+
+    </script>
+
+
+    <!-- jQuery -->
+    <script src="/AdminPanelContent/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/AdminPanelContent/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/AdminPanelContent/dist/js/adminlte.min.js"></script>
+    <script src="/AdminPanelContent/plugins/sweetalert2/sweetalert2.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+}
+
+
+
+
+

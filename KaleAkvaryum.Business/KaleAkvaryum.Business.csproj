@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KaleAkvaryum.DataAccess\KaleAkvaryum.DataAccess.csproj" />
+    <ProjectReference Include="..\KaleAkvaryum.Model\KaleAkvaryum.Model.csproj" />
+  </ItemGroup>
+
+</Project>

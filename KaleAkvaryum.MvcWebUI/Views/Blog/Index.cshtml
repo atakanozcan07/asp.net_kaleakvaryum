@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using KaleAkvaryum.Model.Entity
+@model List<Blog>
+<!-- Start Blog  -->
+<div class="latest-blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-all text-center">
+                    <h1>Bloglarımız</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4 col-xl-4" style="border-radius:10px">
+                    <div class="blog-box">
+                        <div class="blog-img">
+                            <img class="img-fluid" src="@item.BlogImg" alt="" />
+                        </div>
+                        <div class="blog-content">
+                            <div class="title-blog">
+                                <h3>@item.BlogName</h3>
+                                <br />
+                                <a class="btn btn-primary" href="/blog/detail/@item.Id">Devamı...</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+
+
+        </div>
+    </div>
+</div>
+<!-- End Blog  -->
